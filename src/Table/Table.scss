@@ -1,0 +1,207 @@
+table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    text-align: left;
+  }
+  
+  table td,
+  table th {
+    border: 1px solid #cfcfcf;
+    padding: 8px;
+  }
+  
+  table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  table tr:hover {
+    background-color: #ddd;
+  }
+  
+  table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    min-width: 4rem;
+    text-align: left;
+    background-color: #ddd;
+    color: var(--color-grey-dark-1);
+  }
+  
+  .btn_tools {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    padding: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+    color: inherit;
+    & > a {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+  
+  .btn_tools_disabled {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #BBBBBB;
+  }
+  
+  .btn_action {
+    border: none;
+    outline: none;
+    background-color: var(--color-grey-dark-1);
+  
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all ease-out 0.5s;
+    margin-right: 0.4rem;
+  
+    div {
+      height: 1.5rem;
+      width: 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    &:hover {
+      background-color: var(--color-primary);
+    }
+  
+    &-icon {
+      color: #fff;
+    }
+  }
+  
+  .centering {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .utils {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    & > .pagination {
+      margin-top: 1rem;
+      margin-left: 0.7rem;
+      & > button {
+        border-radius: 50%;
+        border: none;
+        background-color: var(--color-primary);
+        color: white;
+        font-weight: bold;
+        width: 1.5rem;
+        height: 1.5rem;
+  
+        &:disabled {
+          background-color: var(--color-grey-dark-1);
+        }
+      }
+      & > span > input {
+        width: 4vw;
+      }
+      & > select, & > span > input {
+        background-color: rgba(#f3f3f3, 0.9);
+        border: none;
+        outline: none;
+        padding: 0.3rem;
+        transition: all ease-out 0.6s;
+        border-radius: 0.4rem;
+        &::-webkit-input-placeholder {
+          font-weight: 300;
+          color: rgb(173, 169, 169);
+        }
+        &::placeholder {
+          font-weight: 300;
+          color: rgb(173, 169, 169);
+        }
+      
+        &:focus {
+          border: 1px solid var(--color-primary);
+        }
+      }
+      & > * {
+        margin: 0 0.3rem;
+      }
+    }
+  }
+  .table_props {
+    justify-self: end;
+    & > span {
+      font-weight: bold;
+      padding: 0.3rem;
+    }
+    &_input {
+      justify-self: end;
+      margin-top: 1rem;
+      margin-right: 1rem;
+      background-color: rgba(#f3f3f3, 0.9);
+      border: none;
+      outline: none;
+      padding: 0.3rem;
+      transition: all ease-out 0.6s;
+      border-radius: 0.4rem;
+      &::-webkit-input-placeholder {
+        font-weight: 300;
+        color: rgb(173, 169, 169);
+      }
+      &::placeholder {
+        font-weight: 300;
+        color: rgb(173, 169, 169);
+      }
+    
+      &:focus {
+        border: 1px solid var(--color-primary);
+      }
+    }
+  }
+  
+  @media only screen and (max-width: 899px) {
+    .utils {
+      grid-template-columns: unset;
+      grid-template-rows: 1fr;
+      width: 100%;
+  
+      & > .pagination {
+        & > select {
+          display: none;
+        }
+        & > span > input {
+          width: 50px;
+        }
+        & > * {
+          margin: 0 0.1rem
+        }
+      }
+    }
+    .table_container {
+      max-width: 100%;
+      overflow-x: scroll;
+    }
+  
+    table th {
+      min-width: 2vw;
+      max-width: 5vw;
+      overflow-x: hidden;
+    }
+  
+    .btn_action {
+      margin-right: 0.2rem;
+      margin-bottom: 0.1rem;
+    }
+  }
+  
+  .empty_cell {
+    background-color: #777;
+  }
+  
