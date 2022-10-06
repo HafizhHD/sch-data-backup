@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, Fragment } from 'react';
+import React, { useMemo, useEffect, Fragment, useState } from 'react';
 import { useTable, useSortBy, useExpanded, usePagination, useGlobalFilter, useFilters, useRowSelect } from 'react-table';
 import { BiCaretDown, BiCaretUp } from 'react-icons/bi';
 import './Table.scss';
@@ -7,7 +7,7 @@ import { CSVLink, CSVDownload } from "react-csv";
 
 import { FaFilePdf, FaTable, FaBell } from "react-icons/fa";
 
-function Table({ DATA, COLUMNS, renderRowSubComponent, showCheckbox = false, notifContext = '' }) {
+function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolRequest, search, keyword, renderRowSubComponent, showCheckbox = false, notifContext = '' }) {
     const filterTypes = React.useMemo(
         () => ({
           // Add a new fuzzyTextFilterFn filter type.
@@ -56,7 +56,7 @@ function Table({ DATA, COLUMNS, renderRowSubComponent, showCheckbox = false, not
 
     const data = useMemo( () => DATA , [DATA]);
 
-    const initialState = { hiddenColumns: ['emailUser', 'parentEmail', '_id'], pageSize: 20 };
+    const initialState = { hiddenColumns: ['emailUser', 'parentEmail', '_id'], pageSize: 100 };
     
     const {
         getTableProps,
@@ -116,6 +116,7 @@ function Table({ DATA, COLUMNS, renderRowSubComponent, showCheckbox = false, not
       })
 
     const { globalFilter } = state;
+    const [kw, setKw] = useState(keyword);
 
     const downloadAsCSV = () => {
         const currentRecords = rows;
@@ -141,18 +142,54 @@ function Table({ DATA, COLUMNS, renderRowSubComponent, showCheckbox = false, not
         return data_to_download;
     }
 
+    const downloadAsCSV2 = () => {
+        var data_to_download = [];
+        schoolRequest().then(currentRecords => {
+
+        for (var i = 0; i < currentRecords.length; i++) {
+            let record_to_download = {};
+            let x = currentRecords[i];
+            // console.log(currentRecords[i].cells);
+            record_to_download['Nama Sekolah'] = x.nama;
+            record_to_download['NPSN'] = x.npsn;
+            record_to_download['Tingkat'] = x.bentuk_pendidikan;
+            record_to_download['Status'] = x.status_pendidikan;
+            record_to_download['Jml Guru dan Tendik'] = x.ptk;
+            record_to_download['Jml Pegawai'] = x.pegawai;
+            record_to_download['Jml Peserta Didik'] = x.pd;
+            record_to_download['Jml Romb Belajar'] = x.rombel;
+            record_to_download['Jml R Kelas'] = x.jml_rk;
+            record_to_download['Jml R Lab'] = x.jml_lab;
+            record_to_download['Jml Perpustakaan'] = x.jml_perpus;
+            record_to_download['Kecamatan'] = x.induk_kecamatan;
+            record_to_download['Kota/Kab'] = x.induk_kabupaten;
+            record_to_download['Provinsi'] = x.induk_provinsi;
+            data_to_download.push(record_to_download);
+        }
+        })
+        .catch(err => {
+        })
+        .finally(() => {
+            return data_to_download;
+        });
+        return [{}];
+    }
+
     return (
         <>
         <div className="tools">
             <div className="table_props">
-                <span>Total: {rows.length} Data</span>
+                {/* <span>Total: {rows.length} Data</span> */}
                 <input
                     type="text"
                     className="table_props_input"
-                    placeholder="Search"
-                    value={ globalFilter || '' }
+                    placeholder="Cari sekolah..."
+                    value={ kw|| '' }
                     onChange={(e) => {
-                        setGlobalFilter(e.currentTarget.value);
+                        setKw(e.currentTarget.value);
+                    }}
+                    onBlur={() => {
+                        search(kw);
                     }}
                 />
             </div>
@@ -160,22 +197,22 @@ function Table({ DATA, COLUMNS, renderRowSubComponent, showCheckbox = false, not
         </div>
         <div className="utils">
             <div className="pagination">
-                <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                {/* <button onClick={() => setPageNum(0)} disabled={!isPrevious}>
                 {'<<'}
-                </button>
-                <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                </button> */}
+                <button onClick={() => setPageNum(pageNum-1)} disabled={!isPrevious}>
                 {'<'}
                 </button>
-                <button onClick={() => nextPage()} disabled={!canNextPage}>
+                <button onClick={() => setPageNum(pageNum+1)} disabled={!isNext}>
                 {'>'}
                 </button>
-                <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                {/* <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
                 {'>>'}
-                </button>
+                </button> */}
                 <span>
                 Page {' '}
                 <strong>
-                    {pageIndex + 1} of {pageOptions.length}
+                    {pageNum + 1}{/* of {pageOptions.length}*/}
                 </strong>
                 </span>
                 <span>
@@ -183,13 +220,13 @@ function Table({ DATA, COLUMNS, renderRowSubComponent, showCheckbox = false, not
                     <input
                         type="number"
                         defaultValue={pageIndex + 1}
-                        onChange={e => {
+                        onBlur={e => {
                             const page = e.target.value ? Number(e.target.value) - 1 : 0
-                            gotoPage(page)
+                            setPageNum(page)
                         }}
                     />
                 </span>
-                <select
+                {/* <select
                 value={pageSize}
                 onChange={e => {
                     setPageSize(Number(e.target.value))
@@ -200,7 +237,7 @@ function Table({ DATA, COLUMNS, renderRowSubComponent, showCheckbox = false, not
                         Show {pageSize}
                     </option>
                 ))}
-                </select>
+                </select> */}
             </div>
         </div>
         <div className="table_container">
@@ -222,11 +259,11 @@ function Table({ DATA, COLUMNS, renderRowSubComponent, showCheckbox = false, not
                             </th>
                        ))}
                    </tr>
-                   <tr>
+                   {/* <tr>
                         {headerGroup.headers.map(column => (
                             <th>{column.canFilter ? column.render('Filter') : null}</th>
                         ))}
-                   </tr>
+                   </tr> */}
                    </>
                ))}
            </thead>

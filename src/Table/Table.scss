@@ -25,7 +25,7 @@ table {
     min-width: 4rem;
     text-align: left;
     background-color: #ddd;
-    color: var(--color-grey-dark-1);
+    color: darkgray;
   }
   
   .btn_tools {
@@ -58,7 +58,7 @@ table {
   .btn_action {
     border: none;
     outline: none;
-    background-color: var(--color-grey-dark-1);
+    background-color: darkgray;
   
     border-radius: 50%;
     cursor: pointer;
@@ -74,7 +74,7 @@ table {
     }
   
     &:hover {
-      background-color: var(--color-primary);
+      background-color: blue;
     }
   
     &-icon {
@@ -97,14 +97,14 @@ table {
       & > button {
         border-radius: 50%;
         border: none;
-        background-color: var(--color-primary);
+        background-color: blue;
         color: white;
         font-weight: bold;
         width: 1.5rem;
         height: 1.5rem;
   
         &:disabled {
-          background-color: var(--color-grey-dark-1);
+          background-color: darkgray;
         }
       }
       & > span > input {
@@ -127,7 +127,7 @@ table {
         }
       
         &:focus {
-          border: 1px solid var(--color-primary);
+          border: 1px solid blue;
         }
       }
       & > * {
@@ -161,7 +161,7 @@ table {
       }
     
       &:focus {
-        border: 1px solid var(--color-primary);
+        border: 1px solid blue;
       }
     }
   }

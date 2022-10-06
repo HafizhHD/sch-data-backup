@@ -31,8 +31,12 @@ function App() {
 
   const [data, setData] = useState([]);
   const [isLoading, setLoading] = useState(true);
+  const [isPrevious, setPrevious] = useState(false);
+  const [isNext, setNext] = useState(true);
+  const [page, setPage] = useState(0);
+  const [regex, setRegex] = useState('');
 
-  const schoolRequest = async (offsetInt = 0) => {
+  const schoolRequest = async () => {
     let resultData = [];
     let school = async (query) => axios({
       method: 'post',
@@ -42,40 +46,54 @@ function App() {
           'Content-Type': 'application/json',
       }
     });
-    await school({
-      limit: 5000,
-      offset: offsetInt
-    })
-    .then(res => {
-      console.log(offsetInt);
-      console.log(res.data.Data);
-      resultData.push(res.data.Data);
-      // if(res.data.Data.length >= 5000) {
-      if(offsetInt < 5000) {
-        let p = schoolRequest(offsetInt + 5000)
-        resultData.push(p);
-      }
-      else {
-        return resultData;
-      }
-    })
-    .catch(err => {
-      console.log('Error: ' + err);
-      setLoading(false);
-      return resultData;
-    });
-    setLoading(false);
+    let offsetInt = 0;
+    let isThereMore = true;
+    while(isThereMore) {
+      await school({
+        limit: 5000,
+        offset: offsetInt,
+        whereKeyValues: {
+          nama: {
+            '$regex': regex
+          }
+        }
+      })
+      .then(res => {
+        console.log(offsetInt);
+        console.log(res.data.Data);
+        resultData.push(...res.data.Data);
+  
+        // if(res.data.Data.length >= 5000) {
+        if(offsetInt < 20000) {
+          offsetInt += 5000;
+        }
+        else {
+          isThereMore = false;
+        }
+      })
+      .catch(err => {
+        console.log('Error: ' + err);
+        isThereMore = false;
+      });
+    }
     return resultData;
   }
   
   // useEffect(() => {
-  //   let p = schoolRequest();
+  //   const p = async() => {
+  //     const u = await schoolRequest();
+  //     console.log(u);
+  //     setData(u);
+  //   }
 
-  //   setData(p);
+  //   p().then(() => {
+  //     setLoading(false);
+  //   });
   // }, [])
 
-  useEffect(() => {
-    let school = (query) => axios({
+  const schoolRequestManual = async () => {
+    let resultData = [];
+    let school = async (query) => axios({
       method: 'post',
       url: 'https://as01.prod.ruangortu.id:8080/api/cobrand/rekapDataSekolahFilter',
       data: query,
@@ -83,18 +101,72 @@ function App() {
           'Content-Type': 'application/json',
       }
     });
-    school({
-      limit: 20000
+    let offsetInt = page*100;
+    await school({
+      limit: 100,
+      offset: offsetInt,
+      whereKeyValues: {
+        nama: {
+          '$regex': regex
+        }
+      }
     })
     .then(res => {
-      setData(res.data.Data);
-      setLoading(false);
+      console.log(offsetInt);
+      console.log(res.data.Data);
+      resultData.push(...res.data.Data);
+      return resultData;
+
+      // if(res.data.Data.length >= 5000) {
+      //   offsetInt += 5000;
+      // }
+      // else {
+      //   isThereMore = false;
+      // }
     })
     .catch(err => {
       console.log('Error: ' + err);
+      return resultData;
+    });
+    return resultData;
+  }
+
+  useEffect(() => {
+    setLoading(true);
+    const p = async() => {
+      const u = await schoolRequestManual();
+      console.log(u);
+      setData(u);
+      if(page > 0) setPrevious(true);
+      if(u.length < 100) setNext(false);
+    }
+
+    p().then(() => {
       setLoading(false);
-    })
-  }, [])
+    });
+  }, [page, regex])
+
+  // useEffect(() => {
+  //   let school = (query) => axios({
+  //     method: 'post',
+  //     url: 'https://as01.prod.ruangortu.id:8080/api/cobrand/rekapDataSekolahFilter',
+  //     data: query,
+  //     headers: {
+  //         'Content-Type': 'application/json',
+  //     }
+  //   });
+  //   school({
+  //     limit: 20000
+  //   })
+  //   .then(res => {
+  //     setData(res.data.Data);
+  //     setLoading(false);
+  //   })
+  //   .catch(err => {
+  //     console.log('Error: ' + err);
+  //     setLoading(false);
+  //   })
+  // }, [])
 
   if(isLoading) return (
     <div className="App">
@@ -116,6 +188,13 @@ function App() {
         <Table
           COLUMNS={columns}
           DATA={data}
+          pageNum={page}
+          setPageNum={setPage}
+          isPrevious={isPrevious}
+          isNext={isNext}
+          schoolRequest={schoolRequest}
+          search={setRegex}
+          keyword={regex}
         ></Table>
       </div>
     </div>
