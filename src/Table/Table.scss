@@ -90,7 +90,8 @@ table {
   
   .utils {
     display: grid;
-    grid-template-columns: 60% 40%;
+    grid-template-columns: 100%;
+    margin: 10px 0;
     & > .pagination {
       margin-top: 1rem;
       margin-left: 0.7rem;

@@ -7,7 +7,7 @@ import { CSVLink, CSVDownload } from "react-csv";
 
 import { FaFilePdf, FaTable, FaBell } from "react-icons/fa";
 
-function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolRequest, search, keyword, email = '', renderRowSubComponent, showCheckbox = false, notifContext = '' }) {
+function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolRequest, search, keyword, totalRow = 0, email = '', renderRowSubComponent, showCheckbox = false, notifContext = '' }) {
     const filterTypes = React.useMemo(
         () => ({
           // Add a new fuzzyTextFilterFn filter type.
@@ -167,6 +167,7 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
             let record_to_download = {};
             let x = currentRecords[i];
             // console.log(currentRecords[i].cells);
+            record_to_download['No'] = i+1
             record_to_download['Nama Sekolah'] = x.nama;
             record_to_download['NPSN'] = x.npsn;
             record_to_download['Tingkat'] = x.bentuk_pendidikan;
@@ -196,8 +197,8 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
     return (
         <>
         <div className="tools">
+            <span>Total: {totalRow} Data</span>
             <div className="table_props">
-                {/* <span>Total: {rows.length} Data</span> */}
                 <input
                     type="text"
                     className="table_props_input"

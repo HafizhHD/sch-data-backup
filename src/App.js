@@ -43,6 +43,7 @@ function App() {
   const [kot, setKot] = useState('');
   const [prov, setProv] = useState('');
   const [isSearch, setSearch] = useState(false);
+  const [totalRow, setTotalRow] = useState(0);
 
   const search = (r, n, k, o, p) => {
     setRegex(r);
@@ -95,7 +96,7 @@ function App() {
       })
       .then(res => {
         console.log(offsetInt);
-        console.log(res.data.Data);
+        console.log(res.data);
         resultData.push(...res.data.Data);
   
         if(res.data.Data.length >= 5000) {
@@ -165,8 +166,9 @@ function App() {
     })
     .then(res => {
       console.log(offsetInt);
-      console.log(res.data.Data);
+      console.log(res.data);
       resultData.push(...res.data.Data);
+      setTotalRow(res.data.totalRow);
       // if(res.data.Data >= 100) {
       //   setNext(true);
       // }
@@ -257,6 +259,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h2>Rekap Data Sekolah Indonesia</h2>
+        {profile ? <GoogleLogout clientId={clientId} buttonText="Log out" onLogoutSuccess={logOut} /> : <div></div>}
       </header>
       <div className="App-body">
         <h1>Loading...</h1>
@@ -273,7 +276,7 @@ function App() {
       <div className="App-body">
       {profile ?
         <Table
-          COLUMNS={columns}
+          COLUMNS={columns(page*100)}
           DATA={data}
           pageNum={page}
           setPageNum={setPage}
@@ -283,6 +286,7 @@ function App() {
           search={search}
           keyword={[regex, npsn, kec, kot, prov]}
           email={profile.email}
+          totalRow={totalRow}
         ></Table>
       : <GoogleLogin
         clientId={clientId}

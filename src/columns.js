@@ -1,4 +1,12 @@
-const Columns = [
+const Columns = (offsetInt = 0) => {return [
+    {
+        Header: "#",
+        id: "row",
+        Cell: ({row}) => {
+            console.log(row.index);
+            return <div>{row.index+offsetInt+1}</div>;
+        }
+    },
     {
         Header: 'Nama Sekolah',
         accessor: 'nama'
@@ -56,5 +64,6 @@ const Columns = [
         accessor: 'induk_provinsi'
     }
 ];
+}
 
 export default Columns
