@@ -35,6 +35,21 @@ function App() {
   const [isNext, setNext] = useState(true);
   const [page, setPage] = useState(0);
   const [regex, setRegex] = useState('');
+  const [npsn, setNpsn] = useState('');
+  const [kec, setKec] = useState('');
+  const [kot, setKot] = useState('');
+  const [prov, setProv] = useState('');
+  const [isSearch, setSearch] = useState(false);
+
+  const search = (r, n, k, o, p) => {
+    setRegex(r);
+    setNpsn(n);
+    setKec(k);
+    setKot(o);
+    setProv(p);
+    setPage(0);
+    setSearch(true);
+  }
 
   const schoolRequest = async () => {
     let resultData = [];
@@ -54,8 +69,25 @@ function App() {
         offset: offsetInt,
         whereKeyValues: {
           nama: {
-            '$regex': regex
-          }
+            '$regex': regex,
+            '$options': 'i',
+          },
+          npsn: {
+            '$regex': npsn,
+            '$options': 'i',
+          },
+          induk_kecamatan: {
+            '$regex': kec,
+            '$options': 'i',
+          },
+          induk_kabupaten: {
+            '$regex': kot,
+            '$options': 'i',
+          },
+          induk_provinsi: {
+            '$regex': prov,
+            '$options': 'i',
+          },
         }
       })
       .then(res => {
@@ -63,8 +95,8 @@ function App() {
         console.log(res.data.Data);
         resultData.push(...res.data.Data);
   
-        // if(res.data.Data.length >= 5000) {
-        if(offsetInt < 20000) {
+        if(res.data.Data.length >= 5000) {
+        // if(offsetInt < 20000) {
           offsetInt += 5000;
         }
         else {
@@ -107,15 +139,38 @@ function App() {
       offset: offsetInt,
       whereKeyValues: {
         nama: {
-          '$regex': regex
-        }
+          '$regex': regex,
+          '$options': 'i',
+        },
+        npsn: {
+          '$regex': npsn,
+          '$options': 'i',
+        },
+        induk_kecamatan: {
+          '$regex': kec,
+          '$options': 'i',
+        },
+        induk_kabupaten: {
+          '$regex': kot,
+          '$options': 'i',
+        },
+        induk_provinsi: {
+          '$regex': prov,
+          '$options': 'i',
+        },
       }
     })
     .then(res => {
       console.log(offsetInt);
       console.log(res.data.Data);
       resultData.push(...res.data.Data);
-      return resultData;
+      // if(res.data.Data >= 100) {
+      //   setNext(true);
+      // }
+      // else setNext(false);
+      // if(page <= 0) setPrevious(false);
+      // else setPrevious(true);
+      // return resultData;
 
       // if(res.data.Data.length >= 5000) {
       //   offsetInt += 5000;
@@ -138,13 +193,16 @@ function App() {
       console.log(u);
       setData(u);
       if(page > 0) setPrevious(true);
+      else setPrevious(false);
       if(u.length < 100) setNext(false);
+      else setNext(true);
     }
 
     p().then(() => {
+      setSearch(false);
       setLoading(false);
     });
-  }, [page, regex])
+  }, [page, isSearch])
 
   // useEffect(() => {
   //   let school = (query) => axios({
@@ -193,8 +251,8 @@ function App() {
           isPrevious={isPrevious}
           isNext={isNext}
           schoolRequest={schoolRequest}
-          search={setRegex}
-          keyword={regex}
+          search={search}
+          keyword={[regex, npsn, kec, kot, prov]}
         ></Table>
       </div>
     </div>

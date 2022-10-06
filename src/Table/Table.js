@@ -116,7 +116,23 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
       })
 
     const { globalFilter } = state;
-    const [kw, setKw] = useState(keyword);
+    const [regex, setRegex] = useState(keyword[0]);
+    const [npsn, setNpsn] = useState(keyword[1]);
+    const [kec, setKec] = useState(keyword[2]);
+    const [kot, setKot] = useState(keyword[3]);
+    const [prov, setProv] = useState(keyword[4]);
+    const [dataList, setDataList] = useState([]);
+    const [firstCur, setFirstCur] = useState(true);
+
+    const csvLink = React.createRef();
+
+    useEffect(() => {
+        console.log(firstCur);
+        if(!firstCur) {
+            csvLink.current.link.click();
+            setFirstCur(true);
+        }
+    }, [dataList])
 
     const downloadAsCSV = () => {
         const currentRecords = rows;
@@ -139,11 +155,12 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
             }
             data_to_download.push(record_to_download);
         }
-        return data_to_download;
+        setDataList(data_to_download);
     }
 
     const downloadAsCSV2 = () => {
         var data_to_download = [];
+        setFirstCur(false);
         schoolRequest().then(currentRecords => {
 
         for (var i = 0; i < currentRecords.length; i++) {
@@ -170,7 +187,8 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
         .catch(err => {
         })
         .finally(() => {
-            return data_to_download;
+            console.log('Ini', data_to_download);
+            setDataList(data_to_download);
         });
         return [{}];
     }
@@ -183,22 +201,94 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                 <input
                     type="text"
                     className="table_props_input"
-                    placeholder="Cari sekolah..."
-                    value={ kw|| '' }
+                    placeholder="Nama Sekolah..."
+                    value={ regex || '' }
                     onChange={(e) => {
-                        setKw(e.currentTarget.value);
+                        setRegex(e.currentTarget.value);
                     }}
                     onBlur={() => {
-                        search(kw);
+                        search(regex, npsn, kec, kot, prov);
                     }}
                     onKeyDown={(event) => {
                         if(event.key === 'Enter') {
-                            search(kw);
+                            search(regex, npsn, kec, kot, prov);
+                        }
+                    }}
+                />
+                <input
+                    type="text"
+                    className="table_props_input"
+                    placeholder="NPSN..."
+                    value={ npsn || '' }
+                    onChange={(e) => {
+                        setNpsn(e.currentTarget.value);
+                    }}
+                    onBlur={() => {
+                        search(regex, npsn, kec, kot, prov);
+                    }}
+                    onKeyDown={(event) => {
+                        if(event.key === 'Enter') {
+                            search(regex, npsn, kec, kot, prov);
+                        }
+                    }}
+                />
+                <input
+                    type="text"
+                    className="table_props_input"
+                    placeholder="Kecamatan..."
+                    value={ kec || '' }
+                    onChange={(e) => {
+                        setKec(e.currentTarget.value);
+                    }}
+                    onBlur={() => {
+                        search(regex, npsn, kec, kot, prov);
+                    }}
+                    onKeyDown={(event) => {
+                        if(event.key === 'Enter') {
+                            search(regex, npsn, kec, kot, prov);
+                        }
+                    }}
+                />
+                <input
+                    type="text"
+                    className="table_props_input"
+                    placeholder="Kota/Kabupaten..."
+                    value={ kot || '' }
+                    onChange={(e) => {
+                        setKot(e.currentTarget.value);
+                    }}
+                    onBlur={() => {
+                        search(regex, npsn, kec, kot, prov);
+                    }}
+                    onKeyDown={(event) => {
+                        if(event.key === 'Enter') {
+                            search(regex, npsn, kec, kot, prov);
+                        }
+                    }}
+                />
+                <input
+                    type="text"
+                    className="table_props_input"
+                    placeholder="Provinsi..."
+                    value={ prov || '' }
+                    onChange={(e) => {
+                        setProv(e.currentTarget.value);
+                    }}
+                    onBlur={() => {
+                        search(regex, npsn, kec, kot, prov);
+                    }}
+                    onKeyDown={(event) => {
+                        if(event.key === 'Enter') {
+                            search(regex, npsn, kec, kot, prov);
                         }
                     }}
                 />
             </div>
-            <button className="btn_tools"><FaTable/> <CSVLink data={downloadAsCSV()} filename={'Rekap_Data_Sekolah.csv'}>Download as CSV</CSVLink></button>
+            <div>
+                <button className="btn_tools" onClick={downloadAsCSV2}><FaTable/>Download as CSV</button>
+                {!firstCur ? <p>Tunggu sebentar...</p> : null}
+                <CSVLink data={dataList} filename={'Rekap_Data_Sekolah.csv'} ref={csvLink} target="_blank" className="hidden"/>
+            </div>
         </div>
         <div className="utils">
             <div className="pagination">
@@ -276,7 +366,7 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                 {page.map((row, i) => {
                     prepareRow(row)
                     return (
-                        <Fragment {...row.getRowProps()}>
+                        <Fragment key={row.getRowProps().key}>
                             <tr>
                                 {row.cells.map(cell => {
                                     // console.log(cell);
