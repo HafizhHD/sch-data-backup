@@ -121,6 +121,9 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
     const [kec, setKec] = useState(keyword[2]);
     const [kot, setKot] = useState(keyword[3]);
     const [prov, setProv] = useState(keyword[4]);
+    const [tb, setTb] = useState(keyword[5]);
+    const [stat, setStat] = useState(keyword[6]);
+    const [mrd, setMrd] = useState(keyword[7]);
     const [dataList, setDataList] = useState([]);
     const [firstCur, setFirstCur] = useState(true);
 
@@ -208,11 +211,11 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                         setRegex(e.currentTarget.value);
                     }}
                     onBlur={() => {
-                        search(regex, npsn, kec, kot, prov);
+                        search(regex, npsn, kec, kot, prov, tb, stat, mrd);
                     }}
                     onKeyDown={(event) => {
                         if(event.key === 'Enter') {
-                            search(regex, npsn, kec, kot, prov);
+                            search(regex, npsn, kec, kot, prov, tb, stat, mrd);
                         }
                     }}
                 />
@@ -225,11 +228,11 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                         setNpsn(e.currentTarget.value);
                     }}
                     onBlur={() => {
-                        search(regex, npsn, kec, kot, prov);
+                        search(regex, npsn, kec, kot, prov, tb, stat, mrd);
                     }}
                     onKeyDown={(event) => {
                         if(event.key === 'Enter') {
-                            search(regex, npsn, kec, kot, prov);
+                            search(regex, npsn, kec, kot, prov, tb, stat, mrd);
                         }
                     }}
                 />
@@ -242,11 +245,11 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                         setKec(e.currentTarget.value);
                     }}
                     onBlur={() => {
-                        search(regex, npsn, kec, kot, prov);
+                        search(regex, npsn, kec, kot, prov, tb, stat, mrd);
                     }}
                     onKeyDown={(event) => {
                         if(event.key === 'Enter') {
-                            search(regex, npsn, kec, kot, prov);
+                            search(regex, npsn, kec, kot, prov, tb, stat, mrd);
                         }
                     }}
                 />
@@ -259,11 +262,11 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                         setKot(e.currentTarget.value);
                     }}
                     onBlur={() => {
-                        search(regex, npsn, kec, kot, prov);
+                        search(regex, npsn, kec, kot, prov, tb, stat, mrd);
                     }}
                     onKeyDown={(event) => {
                         if(event.key === 'Enter') {
-                            search(regex, npsn, kec, kot, prov);
+                            search(regex, npsn, kec, kot, prov, tb, stat, mrd);
                         }
                     }}
                 />
@@ -276,14 +279,74 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                         setProv(e.currentTarget.value);
                     }}
                     onBlur={() => {
-                        search(regex, npsn, kec, kot, prov);
+                        search(regex, npsn, kec, kot, prov, tb, stat, mrd);
                     }}
                     onKeyDown={(event) => {
                         if(event.key === 'Enter') {
-                            search(regex, npsn, kec, kot, prov);
+                            search(regex, npsn, kec, kot, prov, tb, stat, mrd);
                         }
                     }}
                 />
+            </div>
+            <div className="table_props_2">
+                <div>
+                    <p>Tingkat Pendidikan: </p>
+                    <select value={tb} onChange={(e) => {
+                        setTb(e.currentTarget.value);
+                        search(regex, npsn, kec, kot, prov, e.currentTarget.value, stat, mrd);
+                    }}>
+                        <option value="">-</option>
+                        <option value="KB">KB</option>
+                        <option value="TK">TK</option>
+                        <option value="SD">SD</option>
+                        <option value="SMP">SMP</option>
+                        <option value="SMA">SMA</option>
+                        <option value="SPK SD">SPK SD</option>
+                        <option value="SPK SMP">SPK SMP</option>
+                        <option value="SPK SMA">SPK SMA</option>
+                        <option value="SLB">SLB</option>
+                        <option value="SMLB">SMLB</option>
+                        <option value="SDLB">SDLB</option>
+                        <option value="SMPLB">SMPLB</option>
+                        <option value="TPA">TPA</option>
+                        <option value="SPS">SPS</option>
+                        <option value="PKBM">PKBM</option>
+                        <option value="SKB">SKB</option>
+                    </select>
+                </div>
+
+                <div>
+                    <p>Status Sekolah: </p>
+                    <select value={stat} onChange={(e) => {
+                        setStat(e.currentTarget.value);
+                        search(regex, npsn, kec, kot, prov, tb, e.currentTarget.value, mrd);
+                    }}>
+                        <option value="">-</option>
+                        <option value="swasta">Swasta</option>
+                        <option value="negeri">Negeri</option>
+                    </select>
+                </div>
+
+                <div>
+                    <p>Jml Peserta Didik Minimal</p>
+                    <input
+                        type="number"
+                        defaultValue={mrd}
+                        min={0}
+                        onChange={(e) => {
+                            setMrd(e.currentTarget.value);
+                        }}
+                        onBlur={() => {
+                            search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                        }}
+
+                        onKeyDown={(event) => {
+                            if(event.key === 'Enter') {
+                                search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                            }
+                        }}
+                    />
+                </div>
             </div>
             {email === 'tombak@defghi.id' ? <div>
                 <button className="btn_tools" onClick={downloadAsCSV2}><FaTable/>Download as CSV</button>
@@ -291,6 +354,13 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                 <CSVLink data={dataList} filename={'Rekap_Data_Sekolah.csv'} ref={csvLink} target="_blank" className="hidden"/>
             </div> : null }
         </div>
+        {/* <div class="table_props_2">
+            <p>Jumlah Sekolah: <span>0 |</span></p>
+            <p> Jumlah Peserta Didik: <span>0 |</span></p>
+            <p> Jumlah Provinsi: <span>0 |</span></p>
+            <p> Jumlah Kota/Kabupaten: <span>0 | </span></p>
+            <p> Jumlah Kecamatan: <span>0</span></p>
+        </div> */}
         <div className="utils">
             <div className="pagination">
                 {/* <button onClick={() => setPageNum(0)} disabled={!isPrevious}>

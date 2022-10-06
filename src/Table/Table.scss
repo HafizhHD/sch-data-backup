@@ -54,7 +54,7 @@ table {
     text-decoration: none;
     color: #BBBBBB;
   }
-  
+
   .btn_action {
     border: none;
     outline: none;
@@ -144,6 +144,40 @@ table {
     }
     &_input {
       justify-self: end;
+      margin-top: 1rem;
+      margin-right: 1rem;
+      background-color: rgba(#f3f3f3, 0.9);
+      border: none;
+      outline: none;
+      padding: 0.3rem;
+      transition: all ease-out 0.6s;
+      border-radius: 0.4rem;
+      &::-webkit-input-placeholder {
+        font-weight: 300;
+        color: rgb(173, 169, 169);
+      }
+      &::placeholder {
+        font-weight: 300;
+        color: rgb(173, 169, 169);
+      }
+    
+      &:focus {
+        border: 1px solid blue;
+      }
+    }
+  }
+
+  .table_props_2 {
+    display: inline-flex;
+
+    & > div {
+      margin: 0 10px;
+    }
+    & > span {
+      font-weight: bold;
+      padding: 0.3rem;
+    }
+    &_input {
       margin-top: 1rem;
       margin-right: 1rem;
       background-color: rgba(#f3f3f3, 0.9);

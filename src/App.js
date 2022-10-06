@@ -42,15 +42,21 @@ function App() {
   const [kec, setKec] = useState('');
   const [kot, setKot] = useState('');
   const [prov, setProv] = useState('');
+  const [tb, setTb] = useState('');
+  const [stat, setStat] = useState('');
+  const [mrd, setMrd] = useState(0);
   const [isSearch, setSearch] = useState(false);
   const [totalRow, setTotalRow] = useState(0);
 
-  const search = (r, n, k, o, p) => {
+  const search = (r, n, k, o, p, t, a, m) => {
     setRegex(r);
     setNpsn(n);
     setKec(k);
     setKot(o);
     setProv(p);
+    setTb(t);
+    setStat(a);
+    setMrd(m);
     setPage(0);
     setSearch(true);
   }
@@ -67,6 +73,7 @@ function App() {
     });
     let offsetInt = 0;
     let isThereMore = true;
+    let tingped = tb !== '' ? "^"+tb+"$" : '';
     while(isThereMore) {
       await school({
         limit: 5000,
@@ -91,6 +98,17 @@ function App() {
           induk_provinsi: {
             '$regex': prov,
             '$options': 'i',
+          },
+          bentuk_pendidikan: {
+            '$regex': tingped,
+            '$options': 'i',
+          },
+          status_sekolah: {
+            '$regex': stat,
+            '$options': 'i',
+          },
+          pd: {
+            '$gte': mrd,
           },
         }
       })
@@ -138,6 +156,7 @@ function App() {
       }
     });
     let offsetInt = page*100;
+    let tingped = tb !== '' ? "^"+tb+"$" : '';
     await school({
       limit: 100,
       offset: offsetInt,
@@ -161,6 +180,17 @@ function App() {
         induk_provinsi: {
           '$regex': prov,
           '$options': 'i',
+        },
+        bentuk_pendidikan: {
+          '$regex': tingped,
+          '$options': 'i',
+        },
+        status_sekolah: {
+          '$regex': stat,
+          '$options': 'i',
+        },
+        pd: {
+          '$gte': mrd,
         },
       }
     })
@@ -284,7 +314,7 @@ function App() {
           isNext={isNext}
           schoolRequest={schoolRequest}
           search={search}
-          keyword={[regex, npsn, kec, kot, prov]}
+          keyword={[regex, npsn, kec, kot, prov, tb, stat, mrd]}
           email={profile.email}
           totalRow={totalRow}
         ></Table>
