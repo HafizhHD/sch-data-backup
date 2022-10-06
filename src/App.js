@@ -8,6 +8,9 @@ import axios from 'axios';
 import Table from './Table/Table'
 import columns from './columns'
 
+import { GoogleLogin, GoogleLogout } from '@leecheuk/react-google-login';
+import { gapi } from 'gapi-script';
+
 function App() {
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
@@ -202,7 +205,31 @@ function App() {
       setSearch(false);
       setLoading(false);
     });
-  }, [page, isSearch])
+  }, [page, isSearch]);
+
+  const [ profile, setProfile ] = useState([]);
+  const clientId = '78925276663-l0mdaojf9ui0f87716baaatvjopeofqr.apps.googleusercontent.com';
+  useEffect(() => {
+      const initClient = () => {
+          gapi.client.init({
+              clientId: clientId,
+              scope: ''
+          });
+      };
+      gapi.load('client:auth2', initClient);
+  });
+
+  const onSuccess = (res) => {
+      setProfile(res.profileObj);
+  };
+
+  const onFailure = (err) => {
+      console.log('failed', err);
+  };
+
+  const logOut = () => {
+      setProfile(null);
+  };
 
   // useEffect(() => {
   //   let school = (query) => axios({
@@ -241,8 +268,10 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h2>Rekap Data Sekolah Indonesia</h2>
+        {profile ? <GoogleLogout clientId={clientId} buttonText="Log out" onLogoutSuccess={logOut} /> : <div></div>}
       </header>
       <div className="App-body">
+      {profile ?
         <Table
           COLUMNS={columns}
           DATA={data}
@@ -253,8 +282,17 @@ function App() {
           schoolRequest={schoolRequest}
           search={search}
           keyword={[regex, npsn, kec, kot, prov]}
+          email={profile.email}
         ></Table>
-      </div>
+      : <GoogleLogin
+        clientId={clientId}
+        buttonText="Sign in with Google"
+        onSuccess={onSuccess}
+        onFailure={onFailure}
+        cookiePolicy={'single_host_origin'}
+        isSignedIn={true}
+    />}
+    </div>
     </div>
   );
 }

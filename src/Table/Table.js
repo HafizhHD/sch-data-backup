@@ -7,7 +7,7 @@ import { CSVLink, CSVDownload } from "react-csv";
 
 import { FaFilePdf, FaTable, FaBell } from "react-icons/fa";
 
-function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolRequest, search, keyword, renderRowSubComponent, showCheckbox = false, notifContext = '' }) {
+function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolRequest, search, keyword, email = '', renderRowSubComponent, showCheckbox = false, notifContext = '' }) {
     const filterTypes = React.useMemo(
         () => ({
           // Add a new fuzzyTextFilterFn filter type.
@@ -284,11 +284,11 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                     }}
                 />
             </div>
-            <div>
+            {email === 'tombak@defghi.id' ? <div>
                 <button className="btn_tools" onClick={downloadAsCSV2}><FaTable/>Download as CSV</button>
                 {!firstCur ? <p>Tunggu sebentar...</p> : null}
                 <CSVLink data={dataList} filename={'Rekap_Data_Sekolah.csv'} ref={csvLink} target="_blank" className="hidden"/>
-            </div>
+            </div> : null }
         </div>
         <div className="utils">
             <div className="pagination">

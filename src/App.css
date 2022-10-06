@@ -22,9 +22,14 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  grid-column-gap: 5%;
+  align-items: center;
 }
 
 .App-body {
+  margin: 50px 10px;
   max-width: 100vw;
   overflow-x: scroll;
 }
