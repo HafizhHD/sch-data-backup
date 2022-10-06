@@ -209,7 +209,7 @@ function App() {
     });
   }, [page, isSearch]);
 
-  const [ profile, setProfile ] = useState([]);
+  const [ profile, setProfile ] = useState();
   const clientId = '78925276663-l0mdaojf9ui0f87716baaatvjopeofqr.apps.googleusercontent.com';
   useEffect(() => {
       const initClient = () => {
