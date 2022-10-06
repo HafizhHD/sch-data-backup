@@ -191,6 +191,11 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                     onBlur={() => {
                         search(kw);
                     }}
+                    onKeyDown={(event) => {
+                        if(event.key === 'Enter') {
+                            search(kw);
+                        }
+                    }}
                 />
             </div>
             <button className="btn_tools"><FaTable/> <CSVLink data={downloadAsCSV()} filename={'Rekap_Data_Sekolah.csv'}>Download as CSV</CSVLink></button>
