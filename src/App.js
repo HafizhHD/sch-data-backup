@@ -33,6 +33,8 @@ function App() {
   const analytics = getAnalytics(app);
 
   const [data, setData] = useState([]);
+  const [summary, setSummary] = useState([]);
+  const [pdSum, setPdSum] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [isPrevious, setPrevious] = useState(false);
   const [isNext, setNext] = useState(true);
@@ -47,6 +49,10 @@ function App() {
   const [mrd, setMrd] = useState(0);
   const [isSearch, setSearch] = useState(false);
   const [totalRow, setTotalRow] = useState(0);
+
+
+  const tingkatName = ['KB', 'TK', 'SD', 'SMP', 'SMA', 'SPK SD', 'SPK SMP', 'SPK SMA', 'SLB', 'SMLB', 'SDLB', 'SMPLB', 'TPA', 'SPS', 'PKBM', 'SKB'];
+  
 
   const search = (r, n, k, o, p, t, a, m) => {
     setRegex(r);
@@ -221,6 +227,73 @@ function App() {
     return resultData;
   }
 
+  const summaryRequest = async () => {
+    let school = async (query) => axios({
+      method: 'post',
+      url: 'https://as01.prod.ruangortu.id:8080/api/cobrand/rekapDataSekolahSummary',
+      data: query,
+      headers: {
+          'Content-Type': 'application/json',
+      }
+    });
+    let tingped = tb !== '' ? "^"+tb+"$" : '';
+    await school({
+      limit: 1000,
+      whereKeyValues: {
+        nama: {
+          '$regex': regex,
+          '$options': 'i',
+        },
+        npsn: {
+          '$regex': npsn,
+          '$options': 'i',
+        },
+        induk_kecamatan: {
+          '$regex': kec,
+          '$options': 'i',
+        },
+        induk_kabupaten: {
+          '$regex': kot,
+          '$options': 'i',
+        },
+        induk_provinsi: {
+          '$regex': prov,
+          '$options': 'i',
+        },
+        bentuk_pendidikan: {
+          '$regex': tingped,
+          '$options': 'i',
+        },
+        status_sekolah: {
+          '$regex': stat,
+          '$options': 'i',
+        },
+        pd: {
+          '$gte': mrd,
+        },
+      }
+    })
+    .then(res => {
+      console.log(res.data);
+      let swastaSum = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+      let negeriSum = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+      for(var i=0; i<res.data.Data.length; i++) {
+        let x = res.data.Data[i];
+        console.log(x);
+        if(x._id.status_sekolah === 'Swasta') swastaSum[tingkatName.indexOf(x._id.bentuk_pendidikan)] = x.Jumlah_siswa;
+        else if(x._id.status_sekolah === 'Negeri') negeriSum[tingkatName.indexOf(x._id.bentuk_pendidikan)] = x.Jumlah_siswa;
+      }
+      console.log('NegeriSum',negeriSum);
+      console.log('SwastaSum',swastaSum);
+      setPdSum([negeriSum, swastaSum]);
+      setSummary(res.data.summary);
+    })
+    .catch(err => {
+      console.log('Error: ' + err);
+    });
+  }
+
   useEffect(() => {
     setLoading(true);
     const p = async() => {
@@ -231,6 +304,7 @@ function App() {
       else setPrevious(false);
       if(u.length < 100) setNext(false);
       else setNext(true);
+      await summaryRequest();
     }
 
     p().then(() => {
@@ -285,6 +359,29 @@ function App() {
   //   })
   // }, [])
 
+  // const SummaryElement = () => {
+  //   let tingkatName = ['KB', 'TK', 'SD', 'SMP', 'SMA', 'SPK SD', 'SPK SMP', 'SPK SMA', 'SLB', 'SMLB', 'SDLB', 'SMPLB', 'TPA', 'SPS', 'PKBM', 'SKB'];
+  //   let swastaSum = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  //   let negeriSum = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  //   let summer = summary;
+  //   console.log('pdSum', pdSum);
+  //   for(var i=0; i<pdSum.length; i++) {
+  //     let x = pdSum[i];
+  //     if(x._id.status_sekolah === 'Swasta') swastaSum[tingkatName.indexOf(pdSum[i].bentuk_pendidikan)] = x.Jumlah_siswa;
+  //     else if(x._id.status_sekolah === 'Negeri') negeriSum[tingkatName.indexOf(pdSum[i].bentuk_pendidikan)] = x.Jumlah_siswa;
+  //   }
+  //   return (
+  //     <div className="Summary">
+  //       <p>Jumlah Peserta Didik Negeri: <span>{negeriSum.reduce((partialSum, a) => partialSum + a, 0).toString()}</span></p>
+  //       <p>Jumlah Peserta Didik Swasta: <span>{swastaSum.reduce((partialSum, a) => partialSum + a, 0).toString()}</span></p>
+  //       <p>Jumlah Sekolah: <span>{summer.jumlahSekolah}</span></p>
+  //       <p>Jumlah Provinsi: <span>{summer.jumlahPropinsi}</span></p>
+  //       <p>Jumlah Kota/Kabupaten: <span>{summer.jumlahKabupaten}</span></p>
+  //       <p>Jumlah Kecamatan: <span>{summer.jumlahKecamatan}</span></p>
+  //     </div>
+  //   )
+  // }
+
   if(isLoading) return (
     <div className="App">
       <header className="App-header">
@@ -305,6 +402,29 @@ function App() {
       </header>
       <div className="App-body">
       {profile ?
+        <>
+        <div className="Summary">
+          <div className="Summary-all">
+            <p>Jumlah Peserta Didik Negeri: <span>{pdSum[0].reduce((partialSum, a) => partialSum + a, 0).toString()}</span></p>
+            <p>Jumlah Peserta Didik Swasta: <span>{pdSum[1].reduce((partialSum, a) => partialSum + a, 0).toString()}</span></p>
+            <p>Jumlah Sekolah: <span>{summary.jumlahSekolah}</span></p>
+            <p>Jumlah Provinsi: <span>{summary.jumlahPropinsi}</span></p>
+            <p>Jumlah Kota/Kabupaten: <span>{summary.jumlahKabupaten}</span></p>
+            <p>Jumlah Kecamatan: <span>{summary.jumlahKecamatan}</span></p>
+          </div>
+          <div className="Summary-all">
+            <h4>NEGERI:</h4>
+            {tingkatName.map((x, index) => {
+              return <p>{x}: {pdSum[0][index]}</p>;
+            })}
+          </div>
+          <div className="Summary-all">
+            <h4>SWASTA:</h4>
+            {tingkatName.map((x, index) => {
+              return <p>{x}: {pdSum[1][index]}</p>;
+            })}
+          </div>
+        </div>
         <Table
           COLUMNS={columns(page*100)}
           DATA={data}
@@ -318,6 +438,7 @@ function App() {
           email={profile.email}
           totalRow={totalRow}
         ></Table>
+        </>
       : <GoogleLogin
         clientId={clientId}
         buttonText="Sign in with Google"
