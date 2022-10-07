@@ -388,7 +388,7 @@ function App() {
       <header className="App-header">
         <img src={logoide} alt="Logo IDE DEF GHI"/>
         <img src={logoro} alt="Logo Ruang Ortu"/>
-        <h2>Rekap Data Sekolah Indonesia</h2>
+        <h2>Data Sekolah Seluruh Indonesia</h2>
         {profile ? <GoogleLogout clientId={clientId} buttonText="Log out" onLogoutSuccess={logOut} /> : <div></div>}
       </header>
       <div className="App-body">
@@ -402,7 +402,7 @@ function App() {
       <header className="App-header">
         <img src={logoide} alt="Logo IDE DEF GHI"/>
         <img src={logoro} alt="Logo Ruang Ortu"/>
-        <h2>Rekap Data Sekolah Indonesia</h2>
+        <h2>Data Sekolah Seluruh Indonesia</h2>
         {profile ? <GoogleLogout clientId={clientId} buttonText="Log out" onLogoutSuccess={logOut} /> : <div></div>}
       </header>
       <div className="App-body">
