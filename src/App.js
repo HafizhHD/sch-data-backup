@@ -413,17 +413,37 @@ function App() {
             <p>Jumlah Kecamatan: <span>{summary.jumlahKecamatan}</span></p>
           </div>
           <div className="Summary-all">
-            <h4>NEGERI:</h4>
+            {/* <h4>NEGERI:</h4>
             {tingkatName.map((x, index) => {
               return <p>{x}: {pdSum[0][index]}</p>;
-            })}
+            })} */}
+            <table>
+              <tr>
+                <th></th>
+                {tingkatName.map(x => {
+                  return <th>{x}</th>
+                })}
+              </tr>
+              <tr>
+                <th>NEGERI</th>
+                {tingkatName.map((x, index) => {
+                return(<td>{pdSum[0][index]}</td>)
+              })}
+              </tr>
+              <tr>
+                <th>SWASTA</th>
+                {tingkatName.map((x, index) => {
+                return(<td>{pdSum[1][index]}</td>)
+              })}
+              </tr>
+            </table>
           </div>
-          <div className="Summary-all">
+          {/* <div className="Summary-all">
             <h4>SWASTA:</h4>
             {tingkatName.map((x, index) => {
               return <p>{x}: {pdSum[1][index]}</p>;
             })}
-          </div>
+          </div> */}
         </div>
         <Table
           COLUMNS={columns(page*100)}
