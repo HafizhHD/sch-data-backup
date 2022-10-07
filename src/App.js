@@ -50,6 +50,7 @@ function App() {
   const [mrd, setMrd] = useState(0);
   const [isSearch, setSearch] = useState(false);
   const [totalRow, setTotalRow] = useState(0);
+  const [isFirstCur, setFirstCur] = useState(true);
 
 
   const tingkatName = ['KB', 'TK', 'SD', 'SMP', 'SMA', 'SPK SD', 'SPK SMP', 'SPK SMA', 'SLB', 'SMLB', 'SDLB', 'SMPLB', 'TPA', 'SPS', 'PKBM', 'SKB'];
@@ -296,22 +297,25 @@ function App() {
   }
 
   useEffect(() => {
-    setLoading(true);
-    const p = async() => {
-      const u = await schoolRequestManual();
-      console.log(u);
-      setData(u);
-      if(page > 0) setPrevious(true);
-      else setPrevious(false);
-      if(u.length < 100) setNext(false);
-      else setNext(true);
-      await summaryRequest();
-    }
+    if(isFirstCur || isSearch) {
+      setLoading(true);
+      setFirstCur(false);
+      const p = async() => {
+        const u = await schoolRequestManual();
+        console.log(u);
+        setData(u);
+        if(page > 0) setPrevious(true);
+        else setPrevious(false);
+        if(u.length < 100) setNext(false);
+        else setNext(true);
+        await summaryRequest();
+      }
 
-    p().then(() => {
-      setSearch(false);
-      setLoading(false);
-    });
+      p().then(() => {
+        setSearch(false);
+        setLoading(false);
+      });
+    }
   }, [page, isSearch]);
 
   const [ profile, setProfile ] = useState();

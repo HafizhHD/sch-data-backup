@@ -3,7 +3,7 @@ const Columns = (offsetInt = 0) => {return [
         Header: "#",
         id: "row",
         Cell: ({row}) => {
-            console.log(row.index);
+            // console.log(row.index);
             return <div>{row.index+offsetInt+1}</div>;
         }
     },
