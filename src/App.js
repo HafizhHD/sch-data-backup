@@ -1,4 +1,5 @@
-import logo from './logo.svg';
+import logoro from './assets/ruangortu-icon.png';
+import logoide from './assets/Logo-IDE.png';
 import './App.css';
 import React, {useEffect, useState} from 'react';
 // Import the functions you need from the SDKs you need
@@ -385,6 +386,8 @@ function App() {
   if(isLoading) return (
     <div className="App">
       <header className="App-header">
+        <img src={logoide} alt="Logo IDE DEF GHI"/>
+        <img src={logoro} alt="Logo Ruang Ortu"/>
         <h2>Rekap Data Sekolah Indonesia</h2>
         {profile ? <GoogleLogout clientId={clientId} buttonText="Log out" onLogoutSuccess={logOut} /> : <div></div>}
       </header>
@@ -397,6 +400,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <img src={logoide} alt="Logo IDE DEF GHI"/>
+        <img src={logoro} alt="Logo Ruang Ortu"/>
         <h2>Rekap Data Sekolah Indonesia</h2>
         {profile ? <GoogleLogout clientId={clientId} buttonText="Log out" onLogoutSuccess={logOut} /> : <div></div>}
       </header>

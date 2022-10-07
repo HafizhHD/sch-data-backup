@@ -210,14 +210,14 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                     onChange={(e) => {
                         setRegex(e.currentTarget.value);
                     }}
-                    onBlur={() => {
-                        search(regex, npsn, kec, kot, prov, tb, stat, mrd);
-                    }}
-                    onKeyDown={(event) => {
-                        if(event.key === 'Enter') {
-                            search(regex, npsn, kec, kot, prov, tb, stat, mrd);
-                        }
-                    }}
+                    // onBlur={() => {
+                    //     search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    // }}
+                    // onKeyDown={(event) => {
+                    //     if(event.key === 'Enter') {
+                    //         search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    //     }
+                    // }}
                 />
                 <input
                     type="text"
@@ -227,14 +227,14 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                     onChange={(e) => {
                         setNpsn(e.currentTarget.value);
                     }}
-                    onBlur={() => {
-                        search(regex, npsn, kec, kot, prov, tb, stat, mrd);
-                    }}
-                    onKeyDown={(event) => {
-                        if(event.key === 'Enter') {
-                            search(regex, npsn, kec, kot, prov, tb, stat, mrd);
-                        }
-                    }}
+                    // onBlur={() => {
+                    //     search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    // }}
+                    // onKeyDown={(event) => {
+                    //     if(event.key === 'Enter') {
+                    //         search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    //     }
+                    // }}
                 />
                 <input
                     type="text"
@@ -244,14 +244,14 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                     onChange={(e) => {
                         setKec(e.currentTarget.value);
                     }}
-                    onBlur={() => {
-                        search(regex, npsn, kec, kot, prov, tb, stat, mrd);
-                    }}
-                    onKeyDown={(event) => {
-                        if(event.key === 'Enter') {
-                            search(regex, npsn, kec, kot, prov, tb, stat, mrd);
-                        }
-                    }}
+                    // onBlur={() => {
+                    //     search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    // }}
+                    // onKeyDown={(event) => {
+                    //     if(event.key === 'Enter') {
+                    //         search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    //     }
+                    // }}
                 />
                 <input
                     type="text"
@@ -261,14 +261,14 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                     onChange={(e) => {
                         setKot(e.currentTarget.value);
                     }}
-                    onBlur={() => {
-                        search(regex, npsn, kec, kot, prov, tb, stat, mrd);
-                    }}
-                    onKeyDown={(event) => {
-                        if(event.key === 'Enter') {
-                            search(regex, npsn, kec, kot, prov, tb, stat, mrd);
-                        }
-                    }}
+                    // onBlur={() => {
+                    //     search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    // }}
+                    // onKeyDown={(event) => {
+                    //     if(event.key === 'Enter') {
+                    //         search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    //     }
+                    // }}
                 />
                 <input
                     type="text"
@@ -278,14 +278,14 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                     onChange={(e) => {
                         setProv(e.currentTarget.value);
                     }}
-                    onBlur={() => {
-                        search(regex, npsn, kec, kot, prov, tb, stat, mrd);
-                    }}
-                    onKeyDown={(event) => {
-                        if(event.key === 'Enter') {
-                            search(regex, npsn, kec, kot, prov, tb, stat, mrd);
-                        }
-                    }}
+                    // onBlur={() => {
+                    //     search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    // }}
+                    // onKeyDown={(event) => {
+                    //     if(event.key === 'Enter') {
+                    //         search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    //     }
+                    // }}
                 />
             </div>
             <div className="table_props_2">
@@ -293,7 +293,7 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                     <p>Tingkat Pendidikan: </p>
                     <select value={tb} onChange={(e) => {
                         setTb(e.currentTarget.value);
-                        search(regex, npsn, kec, kot, prov, e.currentTarget.value, stat, mrd);
+                        // search(regex, npsn, kec, kot, prov, e.currentTarget.value, stat, mrd);
                     }}>
                         <option value="">-</option>
                         <option value="KB">KB</option>
@@ -319,7 +319,7 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                     <p>Status Sekolah: </p>
                     <select value={stat} onChange={(e) => {
                         setStat(e.currentTarget.value);
-                        search(regex, npsn, kec, kot, prov, tb, e.currentTarget.value, mrd);
+                        // search(regex, npsn, kec, kot, prov, tb, e.currentTarget.value, mrd);
                     }}>
                         <option value="">-</option>
                         <option value="swasta">Swasta</option>
@@ -336,16 +336,22 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                         onChange={(e) => {
                             setMrd(e.currentTarget.value);
                         }}
-                        onBlur={() => {
-                            search(regex, npsn, kec, kot, prov, tb, stat, mrd);
-                        }}
+                        // onBlur={() => {
+                        //     search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                        // }}
 
-                        onKeyDown={(event) => {
-                            if(event.key === 'Enter') {
-                                search(regex, npsn, kec, kot, prov, tb, stat, mrd);
-                            }
-                        }}
+                        // onKeyDown={(event) => {
+                        //     if(event.key === 'Enter') {
+                        //         search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                        //     }
+                        // }}
                     />
+                </div>
+
+                <div>
+                    <button onClick={() => {search(regex, npsn, kec, kot, prov, tb, stat, mrd)}}>
+                        Cari...
+                    </button>
                 </div>
             </div>
             {email === 'tombak@defghi.id' ? <div>

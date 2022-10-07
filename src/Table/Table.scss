@@ -169,9 +169,21 @@ table {
 
   .table_props_2 {
     display: inline-flex;
+    max-width: 100vw;
+    align-items: center;
 
     & > div {
-      margin: 0 10px;
+      margin: 0 5px;
+      max-width: 25vw;
+
+      & > button {
+        background-color: blue;
+        color: white;
+        font-size: 1.2rem;
+        border: none;
+        padding: 10px;
+        border-radius: 10px;
+      }
     }
     & > span {
       font-weight: bold;
