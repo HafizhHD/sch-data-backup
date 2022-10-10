@@ -124,6 +124,8 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
     const [tb, setTb] = useState(keyword[5]);
     const [stat, setStat] = useState(keyword[6]);
     const [mrd, setMrd] = useState(keyword[7]);
+    const [colSrt, setColSrt] = useState(keyword[8]);
+    const [srtDr, setSrtDr] = useState(keyword[9]);
     const [dataList, setDataList] = useState([]);
     const [firstCur, setFirstCur] = useState(true);
 
@@ -211,11 +213,11 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                         setRegex(e.currentTarget.value);
                     }}
                     // onBlur={() => {
-                    //     search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    //     search(regex, npsn, kec, kot, prov, tb, stat, mrd, colSrt, srtDr);
                     // }}
                     // onKeyDown={(event) => {
                     //     if(event.key === 'Enter') {
-                    //         search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    //         search(regex, npsn, kec, kot, prov, tb, stat, mrd, colSrt, srtDr);
                     //     }
                     // }}
                 />
@@ -228,11 +230,11 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                         setNpsn(e.currentTarget.value);
                     }}
                     // onBlur={() => {
-                    //     search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    //     search(regex, npsn, kec, kot, prov, tb, stat, mrd, colSrt, srtDr);
                     // }}
                     // onKeyDown={(event) => {
                     //     if(event.key === 'Enter') {
-                    //         search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    //         search(regex, npsn, kec, kot, prov, tb, stat, mrd, colSrt, srtDr);
                     //     }
                     // }}
                 />
@@ -245,11 +247,11 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                         setKec(e.currentTarget.value);
                     }}
                     // onBlur={() => {
-                    //     search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    //     search(regex, npsn, kec, kot, prov, tb, stat, mrd, colSrt, srtDr);
                     // }}
                     // onKeyDown={(event) => {
                     //     if(event.key === 'Enter') {
-                    //         search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    //         search(regex, npsn, kec, kot, prov, tb, stat, mrd, colSrt, srtDr);
                     //     }
                     // }}
                 />
@@ -262,11 +264,11 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                         setKot(e.currentTarget.value);
                     }}
                     // onBlur={() => {
-                    //     search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    //     search(regex, npsn, kec, kot, prov, tb, stat, mrd, colSrt, srtDr);
                     // }}
                     // onKeyDown={(event) => {
                     //     if(event.key === 'Enter') {
-                    //         search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    //         search(regex, npsn, kec, kot, prov, tb, stat, mrd, colSrt, srtDr);
                     //     }
                     // }}
                 />
@@ -279,11 +281,11 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                         setProv(e.currentTarget.value);
                     }}
                     // onBlur={() => {
-                    //     search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    //     search(regex, npsn, kec, kot, prov, tb, stat, mrd, colSrt, srtDr);
                     // }}
                     // onKeyDown={(event) => {
                     //     if(event.key === 'Enter') {
-                    //         search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                    //         search(regex, npsn, kec, kot, prov, tb, stat, mrd, colSrt, srtDr);
                     //     }
                     // }}
                 />
@@ -337,19 +339,19 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                             setMrd(e.currentTarget.value);
                         }}
                         // onBlur={() => {
-                        //     search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                        //     search(regex, npsn, kec, kot, prov, tb, stat, mrd, colSrt, srtDr);
                         // }}
 
                         // onKeyDown={(event) => {
                         //     if(event.key === 'Enter') {
-                        //         search(regex, npsn, kec, kot, prov, tb, stat, mrd);
+                        //         search(regex, npsn, kec, kot, prov, tb, stat, mrd, colSrt, srtDr);
                         //     }
                         // }}
                     />
                 </div>
 
                 <div>
-                    <button onClick={() => {search(regex, npsn, kec, kot, prov, tb, stat, mrd)}}>
+                    <button onClick={() => {search(regex, npsn, kec, kot, prov, tb, stat, mrd, colSrt, srtDr)}}>
                         Cari...
                     </button>
                 </div>
@@ -419,11 +421,26 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                    <>
                    <tr {...headerGroup.getHeaderGroupProps()}>
                        {headerGroup.headers.map(column => (
-                           <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                           <th {...column.getHeaderProps(column.getSortByToggleProps())}
+                           onClick={(e) => {
+                            // column
+                            // .getHeaderProps(column.getSortByToggleProps())
+                            // .onClick(e);
+                            if(column.id !== 'row') {
+                                console.log('ID:' + column.id);
+                                if(column.id === colSrt) {
+                                    let s = srtDr * (-1);
+                                    search(regex, npsn, kec, kot, prov, tb, stat, mrd, colSrt, s);
+                                }
+                                else {
+                                    search(regex, npsn, kec, kot, prov, tb, stat, mrd, column.id, 1);
+                                }
+                            }
+                           }}>
                                {column.render('Header')}
                                 <span>
-                                    {column.isSorted
-                                    ? column.isSortedDesc
+                                    {column.id === colSrt
+                                    ? srtDr === -1 
                                         ? (<BiCaretDown/>)
                                         : (<BiCaretUp/>)
                                     : ''}

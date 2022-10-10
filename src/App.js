@@ -52,11 +52,14 @@ function App() {
   const [totalRow, setTotalRow] = useState(0);
   const [isFirstCur, setFirstCur] = useState(true);
 
+  const [columnSorted, setColumnSorted] = useState('nama');
+  const [sortDir, setSortDir] = useState(1);
+
 
   const tingkatName = ['KB', 'TK', 'SD', 'SMP', 'SMA', 'SPK SD', 'SPK SMP', 'SPK SMA', 'SLB', 'SMLB', 'SDLB', 'SMPLB', 'TPA', 'SPS', 'PKBM', 'SKB'];
   
 
-  const search = (r, n, k, o, p, t, a, m) => {
+  const search = (r, n, k, o, p, t, a, m, c, d) => {
     setRegex(r);
     setNpsn(n);
     setKec(k);
@@ -66,6 +69,8 @@ function App() {
     setStat(a);
     setMrd(m);
     setPage(0);
+    setColumnSorted(c);
+    setSortDir(d);
     setSearch(true);
   }
 
@@ -118,6 +123,9 @@ function App() {
           pd: {
             '$gte': mrd,
           },
+        },
+        orderKeyValues: {
+          [columnSorted]: sortDir
         }
       })
       .then(res => {
@@ -200,6 +208,9 @@ function App() {
         pd: {
           '$gte': mrd,
         },
+      },
+      orderKeyValues: {
+        [columnSorted]: sortDir
       }
     })
     .then(res => {
@@ -463,7 +474,7 @@ function App() {
           isNext={isNext}
           schoolRequest={schoolRequest}
           search={search}
-          keyword={[regex, npsn, kec, kot, prov, tb, stat, mrd]}
+          keyword={[regex, npsn, kec, kot, prov, tb, stat, mrd, columnSorted, sortDir]}
           email={profile.email}
           totalRow={totalRow}
         ></Table>
