@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/static/css/main.34a70aba.css",
-    "main.js": "/static/js/main.5f810224.js",
+    "main.js": "/static/js/main.ac74a370.js",
     "static/js/787.10d90139.chunk.js": "/static/js/787.10d90139.chunk.js",
     "static/media/Logo-IDE.png": "/static/media/Logo-IDE.bcc934f992d44af916cd.png",
     "static/media/ruangortu-icon.png": "/static/media/ruangortu-icon.dd58d2c2bd26e912fe30.png",
     "index.html": "/index.html",
     "main.34a70aba.css.map": "/static/css/main.34a70aba.css.map",
-    "main.5f810224.js.map": "/static/js/main.5f810224.js.map",
+    "main.ac74a370.js.map": "/static/js/main.ac74a370.js.map",
     "787.10d90139.chunk.js.map": "/static/js/787.10d90139.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.34a70aba.css",
-    "static/js/main.5f810224.js"
+    "static/js/main.ac74a370.js"
   ]
 }

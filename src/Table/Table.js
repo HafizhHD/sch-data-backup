@@ -131,6 +131,8 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
 
     const [pg, setPg] = useState(0);
 
+    const allowedEmail = ["tombak@defghi.id", "aulia.arman@tdihost.id"]
+
     const csvLink = React.createRef();
 
     useEffect(() => {
@@ -359,7 +361,7 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                     </button>
                 </div>
             </div>
-            {email === 'tombak@defghi.id' ? <div>
+            {allowedEmail.includes(email) ? <div>
                 <button className="btn_tools" onClick={downloadAsCSV2}><FaTable/>Download as CSV</button>
                 {!firstCur ? <p>Tunggu sebentar...</p> : null}
                 <CSVLink data={dataList} filename={'Rekap_Data_Sekolah.csv'} ref={csvLink} target="_blank" className="hidden"/>
