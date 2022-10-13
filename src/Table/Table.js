@@ -129,6 +129,8 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
     const [dataList, setDataList] = useState([]);
     const [firstCur, setFirstCur] = useState(true);
 
+    const [pg, setPg] = useState(0);
+
     const csvLink = React.createRef();
 
     useEffect(() => {
@@ -394,9 +396,17 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                     <input
                         type="number"
                         defaultValue={pageIndex + 1}
+                        onChange={e => {
+                            const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                            setPg(page);
+                        }}
                         onBlur={e => {
-                            const page = e.target.value ? Number(e.target.value) - 1 : 0
-                            setPageNum(page)
+                            setPageNum(pg);
+                        }}
+                        onKeyDown={(event) => {
+                            if(event.key === 'Enter') {
+                                setPageNum(pg);
+                            }
                         }}
                     />
                 </span>

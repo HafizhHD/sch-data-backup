@@ -74,6 +74,11 @@ function App() {
     setSearch(true);
   }
 
+  const pgNum = (p) => {
+    setPage(p);
+    setSearch(true);
+  }
+
   const schoolRequest = async () => {
     let resultData = [];
     let school = async (query) => axios({
@@ -469,7 +474,7 @@ function App() {
           COLUMNS={columns(page*100)}
           DATA={data}
           pageNum={page}
-          setPageNum={setPage}
+          setPageNum={pgNum}
           isPrevious={isPrevious}
           isNext={isNext}
           schoolRequest={schoolRequest}
