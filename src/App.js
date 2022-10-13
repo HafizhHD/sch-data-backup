@@ -462,6 +462,12 @@ function App() {
                 return(<td>{pdSum[1][index]}</td>)
               })}
               </tr>
+              <tr>
+                <th>TOTAL</th>
+                {tingkatName.map((x, index) => {
+                return(<th>{(pdSum[0][index] + pdSum[1][index]).toString()}</th>)
+              })}
+              </tr>
             </table>
           </div>
           {/* <div className="Summary-all">

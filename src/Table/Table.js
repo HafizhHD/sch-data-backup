@@ -389,7 +389,7 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                 <span>
                 Page {' '}
                 <strong>
-                    {pageNum + 1}{/* of {pageOptions.length}*/}
+                    {pageNum + 1} of {Math.ceil(totalRow/100)}
                 </strong>
                 </span>
                 <span>
