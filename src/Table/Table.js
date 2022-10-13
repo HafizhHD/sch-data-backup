@@ -305,6 +305,7 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                         <option value="SD">SD</option>
                         <option value="SMP">SMP</option>
                         <option value="SMA">SMA</option>
+                        <option value="SMA">SMK</option>
                         <option value="SPK SD">SPK SD</option>
                         <option value="SPK SMP">SPK SMP</option>
                         <option value="SPK SMA">SPK SMA</option>
@@ -397,7 +398,10 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                         type="number"
                         defaultValue={pageIndex + 1}
                         onChange={e => {
-                            const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                            var page = e.target.value ? Number(e.target.value) - 1 : 0;
+                            if(page > Math.ceil(totalRow/100) - 1) {
+                                page = totalRow === 0 ? 0 : Math.ceil(totalRow/100) - 1
+                            }
                             setPg(page);
                         }}
                         onBlur={e => {

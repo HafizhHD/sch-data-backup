@@ -56,7 +56,7 @@ function App() {
   const [sortDir, setSortDir] = useState(1);
 
 
-  const tingkatName = ['KB', 'TK', 'SD', 'SMP', 'SMA', 'SPK SD', 'SPK SMP', 'SPK SMA', 'SLB', 'SMLB', 'SDLB', 'SMPLB', 'TPA', 'SPS', 'PKBM', 'SKB'];
+  const tingkatName = ['KB', 'TK', 'SD', 'SMP', 'SMA', 'SMK', 'SPK SD', 'SPK SMP', 'SPK SMA', 'SLB', 'SMLB', 'SDLB', 'SMPLB', 'TPA', 'SPS', 'PKBM', 'SKB'];
   
 
   const search = (r, n, k, o, p, t, a, m, c, d) => {
@@ -293,8 +293,8 @@ function App() {
     })
     .then(res => {
       console.log(res.data);
-      let swastaSum = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-      let negeriSum = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+      let swastaSum = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+      let negeriSum = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
       for(var i=0; i<res.data.Data.length; i++) {
         let x = res.data.Data[i];
@@ -437,6 +437,7 @@ function App() {
             <p>Jumlah Kota/Kabupaten: <span>{summary.jumlahKabupaten}</span></p>
             <p>Jumlah Kecamatan: <span>{summary.jumlahKecamatan}</span></p>
           </div>
+          <h4>Data Jumlah Peserta Didik</h4>
           <div className="Summary-all">
             {/* <h4>NEGERI:</h4>
             {tingkatName.map((x, index) => {
