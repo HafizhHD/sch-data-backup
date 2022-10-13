@@ -305,7 +305,7 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                         <option value="SD">SD</option>
                         <option value="SMP">SMP</option>
                         <option value="SMA">SMA</option>
-                        <option value="SMA">SMK</option>
+                        <option value="SMK">SMK</option>
                         <option value="SPK SD">SPK SD</option>
                         <option value="SPK SMP">SPK SMP</option>
                         <option value="SPK SMA">SPK SMA</option>
