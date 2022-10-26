@@ -131,7 +131,7 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
 
     const [pg, setPg] = useState(0);
 
-    const allowedEmail = ["tombak@defghi.id"]
+    const allowedEmail = ["tombak@defghi.id", "yulizar.ps@gmail.com"]
 
     const csvLink = React.createRef();
 
