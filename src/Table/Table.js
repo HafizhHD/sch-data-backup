@@ -365,7 +365,13 @@ function Table({ DATA, COLUMNS, pageNum, setPageNum, isPrevious, isNext, schoolR
                 <button className="btn_tools" onClick={downloadAsCSV2}><FaTable/>Download as CSV</button>
                 {!firstCur ? <p>Tunggu sebentar...</p> : null}
                 <CSVLink data={dataList} filename={'Rekap_Data_Sekolah.csv'} ref={csvLink} target="_blank" className="hidden"/>
-            </div> : null }
+            </div> : 
+            <div>
+                <button className="btn_tools" onClick={downloadAsCSV2}><FaTable/>Download as CSV</button>
+                {!firstCur ? <p>Tunggu sebentar...</p> : null}
+                <CSVLink data={dataList} filename={'Rekap_Data_Sekolah.csv'} ref={csvLink} target="_blank" className="hidden"/>
+            </div>
+            }
         </div>
         {/* <div class="table_props_2">
             <p>Jumlah Sekolah: <span>0 |</span></p>
