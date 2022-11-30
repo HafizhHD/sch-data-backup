@@ -423,11 +423,11 @@ function App() {
         <img src={logoide} alt="Logo IDE DEF GHI"/>
         <img src={logoro} alt="Logo Ruang Ortu"/>
         <h2>Data Sekolah Seluruh Indonesia</h2>
-        {/* {profile ? <GoogleLogout clientId={clientId} buttonText="Log out" onLogoutSuccess={logOut} /> : <div></div>} */}
+        {profile ? <GoogleLogout clientId={clientId} buttonText="Log out" onLogoutSuccess={logOut} /> : <div></div>}
       </header>
       <div className="App-body">
       {
-      // profile ?
+      profile ?
         <>
         <div className="Summary">
           <div className="Summary-all">
@@ -488,19 +488,19 @@ function App() {
           schoolRequest={schoolRequest}
           search={search}
           keyword={[regex, npsn, kec, kot, prov, tb, stat, mrd, columnSorted, sortDir]}
-          // email={profile.email}
-          email={''}
+          email={profile.email}
+          // email={''}
           totalRow={totalRow}
         ></Table>
         </>
-    //   : <GoogleLogin
-    //     clientId={clientId}
-    //     buttonText="Sign in with Google"
-    //     onSuccess={onSuccess}
-    //     onFailure={onFailure}
-    //     cookiePolicy={'single_host_origin'}
-    //     isSignedIn={true}
-    // />
+      : <GoogleLogin
+        clientId={clientId}
+        buttonText="Sign in with Google"
+        onSuccess={onSuccess}
+        onFailure={onFailure}
+        cookiePolicy={'single_host_origin'}
+        isSignedIn={true}
+    />
     }
     </div>
     </div>
